@@ -5,8 +5,6 @@ import math
 import itertools
 from collections import deque
 
-ids = ["307951384", "322995358"]
-
 def package_location(self, state, package):
     if not isinstance(state['packages'][package], str):
         return state['packages'][package]
@@ -245,8 +243,6 @@ class DroneAgent:
                 else:
                     return min([clients_min,dis]) ##maybe מינימום?
             else:
-
-##לבדוק אם שני רחפנים הולכים לאותה חבילה!!
                 return clients_min
         else:
             return dis
