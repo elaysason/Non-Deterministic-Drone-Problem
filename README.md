@@ -11,7 +11,7 @@ The environment is a rectangular grid with passable and non passable points for 
 around the grid. The packages can be picked up by drones and delivered to clients.Clients behavior is determined by starting location and the probability to move in each direction (up, down, left, right, or stay in place). The goal is to achieve the maximum amount of points, point are given for the following: 10 for delivery and -15 for resetting the environment.
 ### Program Structure
 
-1. ex2.py - implements the specific problem, the soultion would be applied here.
+1. ex2.py - implements the specific problem, the soultion is applied here.
 2. check.py - the file that includes some wrappers and inputs
 3. search.py - a file that has implementations of different search algorithms (including
 GBFS, A* and many more)
