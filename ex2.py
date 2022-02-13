@@ -46,7 +46,41 @@ def print_state(state, stop):
         input()
 
 class DroneAgent:
+    """
+    A class used to represent a drone.
+
+    ...
+
+    Attributes
+    ----------
+    prob_path : array of tuples
+        An array of the problomatic points for passage of drones. 
+    map_size : tuple of ints
+        The size of the map.
+    package_number : int
+        Number of packages in the game.
+    last_turn_package : int
+        The last turn in which a package was delivered,initialized to number of turns.
+    turns_per_package : array of int.
+        How many turns it took to deliver each package.
+    """
     def __init__(self, initial):
+        """
+        Parameters
+        ----------
+        prob_path : array of tuples
+            An array of the problomatic points for passage of drones. 
+        map_size : tuple of ints
+            The size of the map.
+        package_number : int
+            Number of packages in the game.
+        last_turn_package : int
+            The last turn in which a package was delivered,initialized to number of turns.
+        turns_per_package : array of int.
+            How many turns it took to deliver each package.
+        
+        """
+        
         prob_path = []
         i = 0
         for row in initial['map']:
@@ -55,13 +89,25 @@ class DroneAgent:
                     prob_path.append((i, j))
             i += 1
         self.prob_path = prob_path
-        self.turns_in_start = initial['turns to go']
         self.map_size = (len(initial['map']), len(initial['map'][0]))
         self.package_number = len(initial['packages'].keys())
         self.last_turn_package = initial['turns to go']
         self.turns_per_package = []
-
+    
     def normalize(self, probs, state, client_num):
+        """
+        Parameters
+        ----------
+        probs : tuple of int.
+            The probability to move in each direction(up, down, left, right, or stay in place).
+        state : array of tuples
+            Current state of the environment
+        client_num : int
+            The number of client
+            
+        
+        
+        """
         changed_probs = list(probs)
         client = list(state['clients'].keys())[client_num]
         if state['clients'][client]['location'][0] == 0:
@@ -74,8 +120,10 @@ class DroneAgent:
             changed_probs[3] = 0
         prob_factor = 1 / sum(changed_probs)
         return [prob_factor * p for p in changed_probs]
+    
     def distance_in_map(self,state, source, destination):
         return ((source[0]-destination[0])**2 +(source[1]-destination[1])**2 )**0.5
+    
     def distance_in_map1(self, state, source, destination):
         directions = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]]
         q = deque()
@@ -254,7 +302,7 @@ class DroneAgent:
         global_act_index = 0
         if len(state['packages']) == 0:
             turns = state['turns to go']
-            if turns >= 2 * (sum(self.turns_per_package)/len(self.turns_per_package)) and self.package_number>= 2:##לבדוק האם יש זמן לאסוף 2 חבילות ולא סיבוב שלם
+            if turns >= 2 * (sum(self.turns_per_package)/len(self.turns_per_package)) and self.package_number>= 2:
                 return all_comb[-2][0]
 
         del all_comb[-1]
