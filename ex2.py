@@ -104,7 +104,10 @@ class DroneAgent:
             Current state of the environment
         client_num : int
             The number of client
-            
+        
+        Returns
+        ----------
+        array of int: Normalized probalities if the drone is on one of the edges of the map, else the problities.
         
         
         """
