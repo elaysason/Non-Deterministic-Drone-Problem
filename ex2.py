@@ -96,6 +96,8 @@ class DroneAgent:
     
     def normalize(self, probs, state, client_num):
         """
+        Normalize the probablities if the drone is one of the edges of the map.
+        
         Parameters
         ----------
         probs : tuple of int.
@@ -125,30 +127,23 @@ class DroneAgent:
         return [prob_factor * p for p in changed_probs]
     
     def distance_in_map(self,state, source, destination):
+        """
+        Calculate the euclidean distance from the soucre to the desination.
+        
+        Parameters
+        ----------
+        state : array of tuples
+            Current state of the environment.
+        source : list of int.
+            The source point.            
+        destination : list of int.
+            The destination point.    
+        
+        Returns
+        ----------
+        int : The euclidean between the points.
+        """
         return ((source[0]-destination[0])**2 +(source[1]-destination[1])**2 )**0.5
-    
-    def distance_in_map1(self, state, source, destination):
-        directions = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]]
-        q = deque()
-        q.append([source[0], source[1], 0])
-        visited = set()
-        if destination is None:
-            return sys.maxsize
-        while q:
-            x, y, dist = q.popleft()
-            if x == destination[0] and y == destination[1]:
-                return dist
-            if tuple([x, y]) in self.prob_path:
-                continue
-
-            for direction in directions:
-                new_point = [int(x) + direction[0], int(y) + direction[1]]
-                if 0 <= new_point[0] < self.map_size[0] and 0 <= new_point[1] < self.map_size[1] and (
-                        new_point[0], new_point[1]) not in visited and (
-                        new_point[0], new_point[1]) not in self.prob_path:
-                    q.append([new_point[0], new_point[1], dist + 1])
-                    visited.add((new_point[0], new_point[1]))
-        return sys.maxsize
 
     def packages_of_drone(self, drone, state):
         packages = []
