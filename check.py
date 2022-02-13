@@ -1,6 +1,6 @@
 import random
 
-from ex2 import DroneAgent, ids
+from ex2 import DroneAgent
 from inputs import small_inputs
 import logging
 import time
@@ -196,7 +196,6 @@ def main(x, m):
     for _ in range(m):
         y = [0]
         curr = deepcopy(small_inputs)
-        print(f"IDS: {ids}")
         i = 0
         for an_input in curr:
             try:
