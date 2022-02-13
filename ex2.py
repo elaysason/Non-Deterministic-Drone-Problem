@@ -146,6 +146,18 @@ class DroneAgent:
         return ((source[0]-destination[0])**2 +(source[1]-destination[1])**2 )**0.5
 
     def packages_of_drone(self, drone, state):
+        """
+        Parameters
+        ----------
+        drone: str
+            The name of the drone 
+        state : array of tuples
+            Current state of the environment.
+            
+        Returns
+        ----------
+        list of str: The packages that the drone carries.
+        """
         packages = []
         for i, package_location in enumerate(state['packages'].values()):
             if package_location == drone:
