@@ -5,45 +5,6 @@ import math
 import itertools
 from collections import deque
 
-def package_location(self, state, package):
-    if not isinstance(state['packages'][package], str):
-        return state['packages'][package]
-    return state['drones'][state['packages'][package]]
-
-
-def print_state(state, stop):
-    board = []
-
-    for i in range(len(state['map'])):
-        row = []
-        for j in range(len(state['map'][0])):
-            if state['map'][i][j] == 'I':
-                row.append('I')
-            else:
-                row.append(' ')
-        board.append(row)
-
-    for drone in state['drones']:
-        loc = state['drones'][drone]
-        board[loc[0]][loc[1]] = 'D'
-
-    for pack in state['packages']:
-        loc = state['packages'][pack]
-        if len(loc) == 2:
-            board[loc[0]][loc[1]] += 'P'
-        elif loc in state['drones']:
-            drone_loc = state['drones'][loc]
-            board[drone_loc[0]][drone_loc[1]] += '&P'
-
-    for c in state['clients']:
-        loc = state['clients'][c]['location']
-        board[loc[0]][loc[1]] += c[0]
-
-    for row in board:
-        print(row)
-
-    if stop:
-        input()
 
 class DroneAgent:
     """
