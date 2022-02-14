@@ -4,7 +4,6 @@ In this problem we are the head of a delivery agency and try to deliver the pack
 1. [General](#General)
     - [Program Structure](https://github.com/elaysason/Deterministic-Drone-Problem/blob/main/README.md#program-structure)  
 2. [Installation](#Installation)
-4. [Footnote](#footnote)
 
 ## General
 The environment is a rectangular grid with passable and non passable points for drone passage.Moreover, there are packages lying in different locations
