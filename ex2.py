@@ -49,8 +49,6 @@ class DroneAgent:
     """
     A class used to represent a drone.
 
-    ...
-
     Attributes
     ----------
     prob_path : list of tuples
@@ -97,12 +95,10 @@ class DroneAgent:
             Current state of the environment
         client_num : int
             The number of client
-        
+            
         Returns
         ----------
         list of int: Normalized probalities if the drone is on one of the edges of the map, else the problities.
-        
-        
         """
         changed_probs = list(probs)
         client = list(state['clients'].keys())[client_num]
@@ -162,6 +158,7 @@ class DroneAgent:
         ----------
         point: tuple of int
             The point itself.
+        
         Returns
         ----------
         bool : if the point in the map
@@ -174,6 +171,7 @@ class DroneAgent:
         ----------
         state : Dictionary
             Current state of the environment.
+        
         Returns
         ----------
         list of tuples: The best possible actions from each kind to perform from the current state.
@@ -260,6 +258,7 @@ class DroneAgent:
             Current state of the environment.
         package: str
             The name of the package     
+        
         Returns
         ----------
         The client who wants the package, None if no client wants it.
@@ -281,6 +280,7 @@ class DroneAgent:
             drone name to not inculde
         package_location : tuple
             the location of the package
+        
         Returns
         ----------
         int : The min distance from the package to a drone
@@ -304,6 +304,7 @@ class DroneAgent:
             Current state of the environment.
         client : int
             The number of the client
+        
         Returns
         ----------
         list : the location of the client after the next likely move.
@@ -321,6 +322,7 @@ class DroneAgent:
             Current state of the environment.
         drone : str
             The drone name.
+        
         Returns
         ----------
         int : a score given to the wait action.
@@ -345,6 +347,7 @@ class DroneAgent:
             The point after making a move action
         drone : str
             The drone name.
+        
         Returns
         ----------
         int : a score given to the move action.
@@ -380,6 +383,7 @@ class DroneAgent:
         ----------
         state : Dictionary
             Current state of the environment.
+        
         Returns
         ----------
         tuple : a global act(act for each drone) given the state.
@@ -414,4 +418,3 @@ class DroneAgent:
                 self.turns_per_package.append(self.last_turn_package - state['turns to go'])
                 self.last_turn_package = state['turns to go']
         return tuple(all_comb[0])
-
