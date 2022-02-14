@@ -165,9 +165,28 @@ class DroneAgent:
         return packages
 
     def in_map(self,point):
+        """
+        Checks if the point is in the map
+        Parameters
+        ----------
+        point: tuple of int
+            The point itself.
+        Returns
+        ----------
+        bool : if the point in the map
+        """
         return 0 <= point[0] <= self.map_size[0] - 1 and 0 <= point[1] <= self.map_size[1] - 1
 
     def actions(self, state):
+        """
+        Parameters
+        ----------
+        state : array of tuples
+            Current state of the environment.
+        Returns
+        ----------
+        array of tuples: The best possible actions from each kind to perform from the current state.
+        """
         Alldrones_actions = []
         All_comb = []
         drones_pos = list(state["drones"].values())
@@ -201,7 +220,7 @@ class DroneAgent:
                 drone_num += 1
                 Alldrones_actions.append(drone_actions)
                 continue
-            # movments check
+            # get the best move direction
             directions = [[0, 1], [1, 0], [0, -1], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]]
             legal_directions = [direction for direction in directions if (x_pos + direction[0],y_pos+direction[1])
                                 not in self.prob_path and self.in_map((x_pos + direction[0],y_pos+direction[1]))]
@@ -215,7 +234,7 @@ class DroneAgent:
                     if packs_pos[pac] == (x_pos, y_pos):
                         pickup_score[0] = 2
                         pickup_score[1].append(pac)
-            # add wait atomic action
+            # check if wait should be added.
             wait_score = self.wait_score(state,drones_names[drone_num])
             if wait_score == max([-1 * min_move_cost[0],pickup_score[0],wait_score]):
                 drone_actions.append(("wait", drones_names[drone_num]))
@@ -224,8 +243,6 @@ class DroneAgent:
                     drone_actions.append(("pick up", drones_names[drone_num],packs_names[p]))
             drone_actions.append(
                 ("move", drones_names[drone_num], (x_pos + min_move_cost[1][0], y_pos + min_move_cost[1][1])))
-
-
             drone_num += 1
             Alldrones_actions.append(drone_actions)
 
@@ -245,6 +262,17 @@ class DroneAgent:
         return All_comb
 
     def client_package(self, state, package):
+        """
+        Parameters
+        ----------
+        state : array of tuples
+            Current state of the environment.
+        package: str
+            The name of the package     
+        Returns
+        ----------
+        The client who wants the package, None if no client wants it.
+        """
         for i, client in enumerate(state['clients'].values()):
             if package in client['packages']:
                 return i
@@ -292,14 +320,14 @@ class DroneAgent:
             dis += packages_min
         if len(drone_packs) != 0:
             clients = [self.client_package(state, package) for package in drone_packs]
-            clients_dist = [self.distance_in_map(state, pos_after_move, self.next_move(state,i)[0]) for i in clients]##לנסות עם המיקום הכי סביר בטור הבא עם נרמול של הסתברויות
+            clients_dist = [self.distance_in_map(state, pos_after_move, self.next_move(state,i)[0]) for i in clients]
             clients_min = min(clients_dist)
             if len(drone_packs) == 1 and len(free_packages) != 0:
                 drones = state['drones']
-                if self.closet_drone(state,drones,drone,free_packages[package_min_index][0]) == 0: ##check if the clients of the two packages are the same or close
+                if self.closet_drone(state,drones,drone,free_packages[package_min_index][0]) == 0:
                     return -10
                 else:
-                    return min([clients_min,dis]) ##maybe מינימום?
+                    return min([clients_min,dis])
             else:
                 return clients_min
         else:
