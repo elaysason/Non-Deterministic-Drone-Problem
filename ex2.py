@@ -53,32 +53,23 @@ class DroneAgent:
 
     Attributes
     ----------
-    prob_path : array of tuples
-        An array of the problomatic points for passage of drones. 
+    prob_path : list of tuples
+        A list of the problomatic points for passage of drones. 
     map_size : tuple of ints
         The size of the map.
     package_number : int
         Number of packages in the game.
     last_turn_package : int
         The last turn in which a package was delivered,initialized to number of turns.
-    turns_per_package : array of int.
+    turns_per_package : list of int.
         How many turns it took to deliver each package.
     """
     def __init__(self, initial):
         """
         Parameters
         ----------
-        prob_path : array of tuples
-            An array of the problomatic points for passage of drones. 
-        map_size : tuple of ints
-            The size of the map.
-        package_number : int
-            Number of packages in the game.
-        last_turn_package : int
-            The last turn in which a package was delivered,initialized to number of turns.
-        turns_per_package : array of int.
-            How many turns it took to deliver each package.
-        
+        intial: Dictionary
+            Intial state of the enviorment
         """
         
         prob_path = []
@@ -102,14 +93,14 @@ class DroneAgent:
         ----------
         probs : tuple of int.
             The probability to move in each direction(up, down, left, right, or stay in place).
-        state : array of tuples
+        state : Dictionary
             Current state of the environment
         client_num : int
             The number of client
         
         Returns
         ----------
-        array of int: Normalized probalities if the drone is on one of the edges of the map, else the problities.
+        list of int: Normalized probalities if the drone is on one of the edges of the map, else the problities.
         
         
         """
@@ -132,7 +123,7 @@ class DroneAgent:
         
         Parameters
         ----------
-        state : array of tuples
+        state : Dictionary
             Current state of the environment.
         source : list of int.
             The source point.            
@@ -151,7 +142,7 @@ class DroneAgent:
         ----------
         drone: str
             The name of the drone 
-        state : array of tuples
+        state : Dictionary
             Current state of the environment.
             
         Returns
@@ -181,11 +172,11 @@ class DroneAgent:
         """
         Parameters
         ----------
-        state : array of tuples
+        state : Dictionary
             Current state of the environment.
         Returns
         ----------
-        array of tuples: The best possible actions from each kind to perform from the current state.
+        list of tuples: The best possible actions from each kind to perform from the current state.
         """
         Alldrones_actions = []
         All_comb = []
@@ -265,7 +256,7 @@ class DroneAgent:
         """
         Parameters
         ----------
-        state : array of tuples
+        state : Dictionary
             Current state of the environment.
         package: str
             The name of the package     
@@ -279,6 +270,21 @@ class DroneAgent:
         return None
 
     def closet_drone(self, state,drones,drone, package_location):
+         """
+        Parameters
+        ----------
+        state : Dictionary
+            Current state of the environment.
+        drones: Dictionary
+            all drones
+        drone:
+            drone name to not inculde
+        package_location : tuple
+            the location of the package
+        Returns
+        ----------
+        int : The min distance from the package to a drone
+        """
         min = sys.maxsize
         i = 0
         for d in drones:
@@ -291,12 +297,34 @@ class DroneAgent:
         return min
 
     def next_move(self,state,client):
+        """
+        Parameters
+        ----------
+        state : Dictionary
+            Current state of the environment.
+        client : int
+            The number of the client
+        Returns
+        ----------
+        list : the location of the client after the next likely move.
+        """
         directions = [[0, 1], [1, 0], [0, -1], [-1, 0], [0, 0]]
         prob = self.normalize(list(state['clients'].values())[client]['probabilities'],state,client)
         indices = [i for i, x in enumerate(prob) if x == max(prob)]
         return [list(map(operator.add, list(state['clients'].values())[client]['location'], directions[i])) for i in indices]
 
     def wait_score(self,state, drone):
+        """
+        Parameters
+        ----------
+        state : Dictionary
+            Current state of the environment.
+        drone : str
+            The drone name.
+        Returns
+        ----------
+        int : a score given to the wait action.
+        """
         drone_packs = self.packages_of_drone(drone, state)
         if len(drone_packs) == 0:
             return -50000
@@ -308,6 +336,19 @@ class DroneAgent:
         return -10000
 
     def move_score(self, state, pos_after_move, drone):
+        """
+        Parameters
+        ----------
+        state : Dictionary
+            Current state of the environment.
+        pos_after_move : list
+            The point after making a move action
+        drone : str
+            The drone name.
+        Returns
+        ----------
+        int : a score given to the move action.
+        """
         dis = 0
         drone_packs = self.packages_of_drone(drone, state)
         packages = list(state['packages'].values())
@@ -334,8 +375,16 @@ class DroneAgent:
             return dis
 
     def act(self, state):
+        """
+        Parameters
+        ----------
+        state : Dictionary
+            Current state of the environment.
+        Returns
+        ----------
+        tuple : a global act(act for each drone) given the state.
+        """
         all_comb = self.actions(state)
-
         global_act_score = -sys.maxsize
         global_act_index = 0
         if len(state['packages']) == 0:
@@ -364,6 +413,5 @@ class DroneAgent:
             if 'deliver' in actions:
                 self.turns_per_package.append(self.last_turn_package - state['turns to go'])
                 self.last_turn_package = state['turns to go']
-        all_comb2 = self.actions(state)
         return tuple(all_comb[0])
 
