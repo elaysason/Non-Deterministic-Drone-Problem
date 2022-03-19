@@ -1,5 +1,5 @@
 # Non-Deterministic-Drone-Problem
-In this problem we are the head of a delivery agency and try to deliver the packages in the shortest time possible. Our clients are operating in a non-deterministic manner.
+In this problem we are the head of a delivery agency and try to deliver the packages in the shortest time possible. Our clients are moving across the grid in a non-deterministic manner.
 
 1. [General](#General)
     - [Program Structure](https://github.com/elaysason/Deterministic-Drone-Problem/blob/main/README.md#program-structure)  
@@ -10,7 +10,7 @@ The environment is a rectangular grid with passable and non passable points for 
 around the grid. The packages can be picked up by drones and delivered to clients.Clients behavior is determined by starting location and the probability to move in each direction (up, down, left, right, or stay in place). The goal is to achieve the maximum amount of points, point are given for the following: 10 for delivery and -15 for resetting the environment.
 ### Program Structure
 
-1. ex2.py - Implements the specific problem, the soultion is applied here.
+1. ex2.py - The file includs DroneAgent class which is used to determine to behavior of a drone, at each step of the game the next action is chosen according to the state of the game.
 2. check.py - A file that includes some wrappers and inputs
 3. search.py - A file that has implementations of different search algorithms (including
 GBFS, A* and many more)
