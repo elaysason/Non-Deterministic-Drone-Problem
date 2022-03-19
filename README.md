@@ -7,7 +7,7 @@ In this problem we are the head of a delivery agency and try to deliver the pack
 
 ## General
 The environment is a rectangular grid with passable and non passable points for drone passage.Moreover, there are packages lying in different locations
-around the grid. The packages can be picked up by drones and delivered to clients.Clients behavior is determined by starting location and the probability to move in each direction (up, down, left, right, or stay in place). The goal is to achieve the maximum amount of points, point are given for the following: 10 for delivery and -15 for resetting the environment.
+around the grid. The packages can be picked up by drones and delivered to clients. Clients behavior is determined by starting location and the probability to move in each direction (up, down, left, right, or stay in place). The goal is to achieve the maximum amount of points, point are given for the following: 10 for delivery and -15 for resetting the environment.
 ### Program Structure
 
 1. ex2.py - implementation of DroneAgent class which is used to determine to behavior of a drone, at each step of the game the next action is chosen according to the state of the game.
