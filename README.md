@@ -17,13 +17,13 @@ GBFS, A* and many more)
 4. utils.py - the file that contains some utility functions.
 
 ### Installation
-1.Open the terminal
+1. Open the terminal
 
-2.Clone the project by:
+2. Clone the project by:
 ```
     $ git clone https://github.com/elaysason/Non-Deterministic-Drone-Problem.git
 ```
-3.Run the check.py file by:
+3. Run the check.py file by:
 ```
     $ python3 check.py
 ```
